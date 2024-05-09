@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    // Stages defined here
+    // Final Stages defined here
     stages {
         // Stage 1: Build
         stage('Build') {
