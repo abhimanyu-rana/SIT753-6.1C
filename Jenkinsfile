@@ -21,18 +21,6 @@ pipeline {
                 echo 'Postman: '
                 echo 'A tool used for API testing, making it useful for integration tests involving RESTful services.'
             }
-            post {
-                success {
-                    mail to: 'abhimanyurana017@gmail.com',
-                    subject: 'Test Stage Email',
-                    body: 'Stage 1: Build and Stage 2: Test were successful'
-                }
-                failure {
-                    mail to: 'abhimanyurana017@gmail.com',
-                    subject: 'Test Stage Email',
-                    body: 'Stage 1: Build and Stage 2: Test were unsuccessful'
-                }
-            }
         }
         // Stage 3: Code Analysis
         stage('Code Analysis') {
@@ -50,18 +38,6 @@ pipeline {
                 echo 'A scan that analyzes source code for security vulnerabilities without executing the code.'
                 echo 'Identifies common security flaws like SQL injection, XSS, and hardcoded secrets.'
             }
-            post {
-                success {
-                    mail to: 'abhimanyurana017@gmail.com',
-                    subject: 'Test Stage Email',
-                    body: 'Build, Test, Code Analysis, Security Scan were successful'
-                }
-                failure {
-                    mail to: 'abhimanyurana017@gmail.com',
-                    subject: 'Test Stage Email',
-                    body: 'Build, Test, Code Analysis, Security Scan were unsuccessful'
-                }
-            }
         }
         // Stage 5: Deploying
         stage('Deploy to staging') {
@@ -78,11 +54,23 @@ pipeline {
                 echo 'Selenium: For automating browser-based tests, useful for testing web applications.'
             }
         }
-        // Stage 7: Deploy to production:
-        stage ('Deploy to production') {
+        // Stage 7: Deploy to production
+        stage('Deploy to production') {
             steps {
                 echo 'Stage 7: Deploy to production - Deploying the application to the production server from the staging server.'
                 echo 'The same AWS EC2 instance can be used to deploy to the production server.'
+            }
+            post {
+                success {
+                    mail to: 'abhimanyurana017@gmail.com',
+                    subject: 'Pipeline Success',
+                    body: 'Build, Test, Code Analysis, Security Scan, Deploy to Staging, Integration Tests on Staging, and Deploy to Production were successful'
+                }
+                failure {
+                    mail to: 'abhimanyurana017@gmail.com',
+                    subject: 'Pipeline Failure',
+                    body: 'One or more stages in the pipeline failed'
+                }
             }
         }
     }
