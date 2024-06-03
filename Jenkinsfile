@@ -1,77 +1,53 @@
 pipeline {
     agent any
-    // Final Stages defined here
+    
     stages {
-        // Stage 1: Build
         stage('Build') {
             steps {
-                echo 'Stage 1: Build - Compiling code into an executable format.'
-                echo 'Maven Tool: '
-                echo 'An automation tool for Java projects that manages dependencies, compiles code, and runs tests.'
+                echo "Stage 1: Build - Build the code using a build automation tool (e.g., Maven)."
             }
         }
-        // Stage 2: Unit and Integration Test
-        stage('Test') {
+        stage('Unit and Integration Tests') {
             steps {
-                echo 'Stage 2: Test - Conducting unit and integration tests.'
-                echo 'Unit Testing - Ensures that individual components work correctly.'
-                echo 'Mocha/Chai - A popular dependency used for unit testing in JavaScript/Node.js projects.'
-                echo 'Integration Testing: '
-                echo 'Testing different aspects of code to ensure they work together as expected.'
-                echo 'Postman: '
-                echo 'A tool used for API testing, making it useful for integration tests involving RESTful services.'
+                echo "Stage 2: Unit and Integration Tests - Run unit tests to ensure the code functions as expected and run integration tests to ensure the different components of the application work together as expected."
             }
         }
-        // Stage 3: Code Analysis
         stage('Code Analysis') {
             steps {
-                echo 'Stage 3: Code Analysis - Improving code quality and reducing risks.'
-                echo 'ESLint:'
-                echo 'A tool for analyzing JavaScript code for style issues, best practices, and potential bugs.'
+                echo "Stage 3: Code Analysis - Integrate a code analysis tool (e.g., SonarQube) to analyze the code and ensure it meets industry standards."
             }
         }
-        // Stage 4: Security Scan
         stage('Security Scan') {
             steps {
-                echo 'Stage 4: Security Scan - Identifying vulnerabilities, weaknesses, and other security risks in codebases.'
-                echo 'Veracode: '
-                echo 'A scan that analyzes source code for security vulnerabilities without executing the code.'
-                echo 'Identifies common security flaws like SQL injection, XSS, and hardcoded secrets.'
+                echo "Stage 4: Security Scan - Perform a security scan on the code using a tool to identify any vulnerabilities (e.g., OWASP Dependency-Check)."
             }
         }
-        // Stage 5: Deploying
-        stage('Deploy to staging') {
+        stage('Deploy to Staging') {
             steps {
-                echo 'Stage 5: Deploying - Deploying an application to a production or test environment.'
-                echo 'AWS EC2 deploy: '
-                echo 'A deployment service provided by AWS that automates deploying applications to EC2 instances.'
+                echo "Stage 5: Deploy to Staging - Deploy the application to a staging server (e.g., AWS EC2 instance) using a deployment tool (e.g., AWS CodeDeploy)."
             }
         }
-        // Stage 6: Integration Tests on Staging
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Stage 6: Integration Tests on Staging - Verifying that different components or systems work together as expected.'
-                echo 'Selenium: For automating browser-based tests, useful for testing web applications.'
+                echo "Stage 6: Integration Tests on Staging - Run integration tests on the staging environment to ensure the application functions as expected in a production-like environment."
             }
         }
-        // Stage 7: Deploy to production
-        stage('Deploy to production') {
+        stage('Deploy to Production') {
             steps {
-                echo 'Stage 7: Deploy to production - Deploying the application to the production server from the staging server.'
-                echo 'The same AWS EC2 instance can be used to deploy to the production server.'
+                echo "Stage 7: Deploy to Production - Deploy the application to a production server (e.g., AWS EC2 instance) using a deployment tool (e.g., AWS CodeDeploy)."
             }
-            post {
-                success {
-                    mail to: 'abhimanyurana017@gmail.com',
-                    subject: 'Pipeline Success',
-                    body: 'Build, Test, Code Analysis, Security Scan, Deploy to Staging, Integration Tests on Staging, and Deploy to Production were successful'
-                }
-                failure {
-                    mail to: 'abhimanyurana017@gmail.com',
-                    subject: 'Pipeline Failure',
-                    body: 'One or more stages in the pipeline failed'
-                }
-            }
+        }
+    }
+    post {
+        success {
+            mail to: "abhimanyurana017@gmail.com",
+            subject: "Build Status Email",
+               body: "Build was successfull!"
+        }
+        failure {
+            mail subject: "Pipeline Failure",
+                     body: "The pipeline has failed. Please check the logs for details.",
+                      to: "abhimanyurana017@gmail.com"
         }
     }
 }
